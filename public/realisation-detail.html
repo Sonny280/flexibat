@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Détail de la réalisation — Flexibat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<style>
+  .detail-wrap { max-width: 1180px; margin: 0 auto; padding: 48px; }
+  .detail-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
+  .detail-main-photo { width: 100%; height: 420px; object-fit: cover; border-radius: 6px; background: #E4E1D6; }
+  .detail-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .detail-thumbs img { width: 84px; height: 64px; object-fit: cover; border-radius: 3px; cursor: pointer; opacity: 0.7; border: 2px solid transparent; }
+  .detail-thumbs img.active { opacity: 1; border-color: var(--laterite); }
+  .detail-sidebar { background: #fff; border: 1px solid #E4E1D6; border-radius: 6px; padding: 32px; align-self: start; }
+  .detail-category { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; background: var(--laterite); padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
+  .detail-sidebar h1 { font-size: 24px; margin: 4px 0 6px; }
+  .detail-lieu { color: #6B6A63; font-size: 14px; margin-bottom: 24px; }
+  .detail-desc { margin-top: 32px; }
+  .detail-desc h3 { font-size: 18px; margin-bottom: 12px; }
+  .detail-desc p { color: #5C5B54; font-size: 15px; line-height: 1.6; }
+  @media (max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<a href="#" data-whatsapp-link target="_blank" class="whatsapp-float" aria-label="Contacter Flexibat sur WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.13c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.3-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98s.73-2.11 1-2.4c.26-.29.57-.36.76-.36h.55c.18 0 .42-.07.65.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.27.36-.23.6-.14.24.09 1.53.72 1.79.85.26.13.44.19.5.3.06.11.06.63-.18 1.3z"/></svg>
+</a>
+
+<header>
+  <div class="logo"><img src="images/flexibat-logo.png" alt="Flexibat" class="logo-img"></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="btp.html">BTP</a>
+    <a href="vrd.html">VRD & Routes</a>
+    <a href="flexiplomb.html">FlexiPlomb</a>
+    <a href="realisations.html" class="nav-active">Réalisations</a>
+    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#" data-whatsapp-link target="_blank" class="header-cta">Devis sur WhatsApp</a>
+</header>
+
+<div class="page-banner" style="padding: 28px 48px;">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="realisations.html">Réalisations</a> / <span id="crumb-title">...</span></div>
+</div>
+
+<div class="detail-wrap" id="detail-content">
+  <p>Chargement de la réalisation...</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo"><img src="images/flexibat-logo-transparent.png" alt="Flexibat" class="logo-img"></div>
+      <p class="footer-tagline">BTP, aménagement VRD et dépannage FlexiPlomb — un partenaire fiable pour vos projets à Abidjan et en Côte d'Ivoire.</p>
+      <p style="margin-top:12px; max-width:220px; color:#8FA3B5;"><span data-adresse-display>Yopougon Antenne-Ananeraie, en face de la FIDRA — Abidjan</span></p>
+      <div class="footer-social">
+        <a href="#" aria-label="Flexibat sur Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+        </a>
+        <a href="#" aria-label="Flexibat sur Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2.2c2.67 0 2.99.01 4.04.06 1.05.05 1.77.22 2.4.46.65.25 1.2.6 1.75 1.15.5.5.9 1.1 1.15 1.75.24.63.41 1.35.46 2.4.05 1.05.06 1.37.06 4.04s-.01 2.99-.06 4.04c-.05 1.05-.22 1.77-.46 2.4a4.9 4.9 0 0 1-1.15 1.75 4.9 4.9 0 0 1-1.75 1.15c-.63.24-1.35.41-2.4.46-1.05.05-1.37.06-4.04.06s-2.99-.01-4.04-.06c-1.05-.05-1.77-.22-2.4-.46a4.9 4.9 0 0 1-1.75-1.15 4.9 4.9 0 0 1-1.15-1.75c-.24-.63-.41-1.35-.46-2.4C2.21 14.99 2.2 14.67 2.2 12s.01-2.99.06-4.04c.05-1.05.22-1.77.46-2.4.25-.65.6-1.2 1.15-1.75a4.9 4.9 0 0 1 1.75-1.15c.63-.24 1.35-.41 2.4-.46C9.01 2.21 9.33 2.2 12 2.2zm0 1.8c-2.63 0-2.92.01-3.95.06-.96.04-1.48.2-1.83.34-.46.18-.79.39-1.14.74-.35.35-.56.68-.74 1.14-.14.35-.3.87-.34 1.83C4 8.14 3.99 8.43 3.99 11.06v1.88c0 2.63.01 2.92.06 3.95.04.96.2 1.48.34 1.83.18.46.39.79.74 1.14.35.35.68.56 1.14.74.35.14.87.3 1.83.34 1.03.05 1.32.06 3.95.06h1.88c2.63 0 2.92-.01 3.95-.06.96-.04 1.48-.2 1.83-.34.46-.18.79-.39 1.14-.74.35-.35.56-.68.74-1.14.14-.35.3-.87.34-1.83.05-1.03.06-1.32.06-3.95v-1.88c0-2.63-.01-2.92-.06-3.95-.04-.96-.2-1.48-.34-1.83a3.1 3.1 0 0 0-.74-1.14 3.1 3.1 0 0 0-1.14-.74c-.35-.14-.87-.3-1.83-.34C14.92 4.01 14.63 4 12 4zm0 3.6a4.4 4.4 0 1 1 0 8.8 4.4 4.4 0 0 1 0-8.8zm0 1.8a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2zm4.6-2a1.03 1.03 0 1 1 0 2.06 1.03 1.03 0 0 1 0-2.06z"/></svg>
+        </a>
+        <a href="#" data-whatsapp-link aria-label="Flexibat sur WhatsApp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.13c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.3-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98s.73-2.11 1-2.4c.26-.29.57-.36.76-.36h.55c.18 0 .42-.07.65.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.27.36-.23.6-.14.24.09 1.53.72 1.79.85.26.13.44.19.5.3.06.11.06.63-.18 1.3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h5>Activités</h5>
+      <ul>
+        <li><a href="btp.html">BTP</a></li>
+        <li><a href="vrd.html">VRD & Routes</a></li>
+        <li><a href="flexiplomb.html">FlexiPlomb</a></li>
+        <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Liens utiles</h5>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="realisations.html">Réalisations</a></li>
+        <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+        <li><a href="index.html#contact">Nous contacter</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><span data-telephone-display>+225 07 07 36 65 32</span></li>
+        <li><span data-whatsapp-display>+225 05 01 47 52 70</span></li>
+        <li><span data-email-display>expert.btp@gmail.com</span></li>
+        <li style="margin-top:14px; color:#8FA3B5; font-size:13px;">Lun – Sam : 7h30 – 18h00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Flexibat. Tous droits réservés.</span>
+    <span>RCCM à afficher ici</span>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+<script src="animations.js" type="module"></script>
+<script>
+  const CATEGORY_LABELS = { BTP: 'BTP', Terrain: 'Voirie / Terrain viabilisé', FlexiPlomb: 'FlexiPlomb' };
+
+  (async function () {
+    const id = new URLSearchParams(window.location.search).get('id');
+    const container = document.getElementById('detail-content');
+    if (!id) { container.innerHTML = '<p>Réalisation non spécifiée.</p>'; return; }
+
+    try {
+      const res = await fetch(`/api/realisations/${id}`);
+      if (!res.ok) { container.innerHTML = '<p>Cette réalisation n\'existe plus ou a été retirée.</p>'; return; }
+      const r = await res.json();
+      document.title = `${r.titre} — Flexibat`;
+      document.getElementById('crumb-title').textContent = r.titre;
+
+      const photos = (r.photos && r.photos.length > 0) ? r.photos : ['https://picsum.photos/seed/real-' + r.id + '/900/600'];
+
+      const settingsRes = await fetch('/api/settings');
+      const settings = await settingsRes.json();
+      const waMessage = encodeURIComponent(`Bonjour, votre réalisation "${r.titre}" m'intéresse. Pourriez-vous m'en dire plus sur un projet similaire ?`);
+
+      container.innerHTML = `
+        <div class="detail-grid">
+          <div>
+            <img class="detail-main-photo" id="main-photo" src="${photos[0]}" alt="${r.titre}">
+            <div class="detail-thumbs">
+              ${photos.map((p, i) => `<img src="${p}" class="${i === 0 ? 'active' : ''}" data-src="${p}">`).join('')}
+            </div>
+            <div class="detail-desc">
+              <h3>Description</h3>
+              <p>${r.description || "Aucune description fournie pour le moment."}</p>
+            </div>
+          </div>
+          <div class="detail-sidebar">
+            <span class="detail-category">${CATEGORY_LABELS[r.categorie] || r.categorie}</span>
+            <h1>${r.titre}</h1>
+            <p class="detail-lieu">${r.lieu || ''}</p>
+            <a href="https://wa.me/${settings.whatsapp}?text=${waMessage}" target="_blank" class="btn-primary" style="display:block; text-align:center;">Discuter d'un projet similaire</a>
+          </div>
+        </div>
+      `;
+
+      document.querySelectorAll('.detail-thumbs img').forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          document.getElementById('main-photo').src = thumb.dataset.src;
+          document.querySelectorAll('.detail-thumbs img').forEach(i => i.classList.remove('active'));
+          thumb.classList.add('active');
+        });
+      });
+    } catch (e) {
+      container.innerHTML = '<p>Une erreur est survenue lors du chargement.</p>';
+      console.error(e);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos réalisations — Flexibat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .realisations-wrap { max-width: 1180px; margin: 0 auto; padding: 56px 48px 96px; }
+  .realisations-filters { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+  .realisations-filters button {
+    border: 1px solid #E4E1D6; background: #fff; padding: 9px 18px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; cursor: pointer; color: var(--ink);
+  }
+  .realisations-filters button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .realisations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .realisation-card { background: #fff; border: 1px solid #E4E1D6; border-radius: 6px; overflow: hidden; display: block; color: inherit; text-decoration: none; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .realisation-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .realisation-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .realisation-card-body { padding: 20px; }
+  .realisation-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--laterite); margin-bottom: 8px; }
+  .realisation-card h3 { font-size: 17px; margin-bottom: 6px; }
+  .realisation-card .lieu { font-size: 13px; color: #6B6A63; margin-bottom: 10px; }
+  .realisation-card p { font-size: 13px; color: #5C5B54; }
+  @media (max-width: 900px) { .realisations-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<a href="#" data-whatsapp-link target="_blank" class="whatsapp-float" aria-label="Contacter Flexibat sur WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.13c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.3-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98s.73-2.11 1-2.4c.26-.29.57-.36.76-.36h.55c.18 0 .42-.07.65.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.27.36-.23.6-.14.24.09 1.53.72 1.79.85.26.13.44.19.5.3.06.11.06.63-.18 1.3z"/></svg>
+</a>
+
+<header>
+  <a href="index.html" class="logo">FLEXI<span>BAT</span></a>
+  <nav>
+    <a href="terrains.html">Terrains</a>
+    <a href="btp.html">BTP</a>
+    <a href="flexiplomb.html">FlexiPlomb</a>
+    <a href="realisations.html" style="color:#2EA8D8;">Réalisations</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <a href="#" data-whatsapp-link target="_blank" class="header-cta">Devis sur WhatsApp</a>
+</header>
+
+<div class="page-banner">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Réalisations</div>
+  <h1>Nos réalisations</h1>
+  <p>Chantiers BTP, terrains livrés et interventions FlexiPlomb menés à bien.</p>
+</div>
+
+<div class="realisations-wrap">
+  <div class="realisations-filters reveal" id="filters">
+    <button data-cat="" class="active">Tout</button>
+    <button data-cat="BTP">BTP</button>
+    <button data-cat="Terrain">Terrain</button>
+    <button data-cat="FlexiPlomb">FlexiPlomb</button>
+  </div>
+  <div class="realisations-grid" id="realisations-grid">
+    <p style="color:#6B6A63;">Chargement...</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo">FLEXI<span>BAT</span></div>
+      <p style="margin-top:16px; max-width:220px; color:#8FA3B5;"><span data-adresse-display>Yopougon Antenne-Ananeraie, en face de la FIDRA — Abidjan</span></p>
+    </div>
+    <div>
+      <h5>Activités</h5>
+      <ul>
+        <li><a href="terrains.html">Terrains</a></li>
+        <li><a href="btp.html">BTP</a></li>
+        <li><a href="flexiplomb.html">FlexiPlomb</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Liens</h5>
+      <ul>
+        <li><a href="realisations.html">Réalisations</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><span data-telephone-display>+225 27 20 24 18 77</span></li>
+        <li><span data-whatsapp-display>+225 05 01 47 52 70</span></li>
+        <li><span data-email-display>k.n.na@hotmail.fr</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Flexibat. Tous droits réservés.</span>
+    <span>RCCM à afficher ici</span>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+<script src="animations.js" type="module"></script>
+<script>
+  let allRealisations = [];
+
+  function render(list) {
+    const grid = document.getElementById('realisations-grid');
+    if (list.length === 0) {
+      grid.innerHTML = '<p style="color:#6B6A63;">Aucune réalisation publiée pour le moment.</p>';
+      return;
+    }
+    grid.innerHTML = list.map(r => `
+      <a class="realisation-card" href="realisation-detail.html?id=${r.id}">
+        <img src="${(r.photos && r.photos[0]) || 'https://picsum.photos/seed/real-' + r.id + '/500/380'}" alt="${r.titre}">
+        <div class="realisation-card-body">
+          <div class="realisation-tag">${r.categorie}</div>
+          <h3>${r.titre}</h3>
+          <div class="lieu">${r.lieu || ''}</div>
+          <p>${r.description || ''}</p>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  (async function () {
+    const res = await fetch('/api/realisations');
+    allRealisations = await res.json();
+    render(allRealisations);
+
+    document.querySelectorAll('#filters button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        render(cat ? allRealisations.filter(r => r.categorie === cat) : allRealisations);
+      });
+    });
+  })();
+</script>
+</body>
+</html>

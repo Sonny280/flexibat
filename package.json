@@ -1,0 +1,25 @@
+{
+  "name": "flexibat-app",
+  "version": "1.0.0",
+  "description": "Site web et espace de gestion pour Flexibat (BTP, vente de terrains, FlexiPlomb)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node migrate.js"
+  },
+  "keywords": [
+    "flexibat",
+    "btp",
+    "immobilier"
+  ],
+  "author": "Archange Services",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.0",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.4.0",
+    "pg": "^8.23.0"
+  }
+}

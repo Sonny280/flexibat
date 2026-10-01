@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administration — Flexibat</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<style>
+  :root { --navy: #17417B; --cyan: #02AFF3; --laterite: #B8492E; --sand: #F2F1EC; --ink: #1C1F26; --olive: #5C7A52; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--sand); color: var(--ink); }
+  header { background: var(--navy); color: #fff; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; }
+  header .brand { display: flex; align-items: center; gap: 14px; }
+  header .brand img { height: 36px; width: auto; display: block; border-radius: 4px; }
+  header h1 { font-size: 16px; font-weight: 600; }
+  header .header-links { display: flex; gap: 20px; align-items: center; }
+  header a { color: #B9C9DC; font-size: 13px; }
+  header button { background: none; border: 1px solid #3E5C78; color: #fff; padding: 6px 14px; border-radius: 3px; font-size: 13px; cursor: pointer; }
+  .tabs { display: flex; gap: 8px; padding: 20px 32px 0; }
+  .tabs button {
+    padding: 10px 20px; border: none; background: #fff; border-radius: 4px 4px 0 0;
+    font-weight: 600; font-size: 14px; cursor: pointer; color: #6B6A63;
+  }
+  .tabs button.active { background: #fff; color: var(--navy); box-shadow: 0 -2px 0 var(--laterite) inset; }
+  .panel { background: #fff; margin: 0 32px 32px; padding: 28px; border-radius: 0 4px 4px 4px; }
+  .hidden { display: none; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #E4E1D6; font-size: 14px; }
+  th { font-size: 12px; text-transform: uppercase; color: #6B6A63; }
+  td img { width: 50px; height: 38px; object-fit: cover; border-radius: 3px; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+  .badge.disponible { background: #E8F0E4; color: var(--olive); }
+  .badge.reserve, .badge.vendu { background: #F5E9E0; color: var(--laterite); }
+
+  .btn { padding: 8px 16px; border-radius: 3px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .btn-primary { background: var(--laterite); color: #fff; }
+  .btn-secondary { background: #E4E1D6; color: var(--ink); }
+  .btn-danger { background: #fff; color: var(--laterite); border: 1px solid var(--laterite); }
+  .btn-small { padding: 5px 10px; font-size: 12px; margin-right: 6px; }
+
+  .top-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(11,42,74,0.5); display: flex;
+    align-items: center; justify-content: center; z-index: 50;
+  }
+  .modal { background: #fff; border-radius: 6px; padding: 32px; width: 560px; max-height: 85vh; overflow-y: auto; }
+  .modal h2 { font-size: 18px; margin-bottom: 20px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .field input, .field select, .field textarea {
+    width: 100%; border: 1px solid #E4E1D6; border-radius: 3px; padding: 9px 10px;
+    font-family: 'Inter', sans-serif; font-size: 14px; background: var(--sand);
+  }
+  .field textarea { min-height: 80px; resize: vertical; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+  .existing-photos { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+  .existing-photos .ph { position: relative; }
+  .existing-photos img { width: 60px; height: 46px; object-fit: cover; border-radius: 3px; }
+  .existing-photos .remove-ph {
+    position: absolute; top: -6px; right: -6px; background: var(--laterite); color: #fff;
+    border-radius: 50%; width: 18px; height: 18px; font-size: 11px; display: flex;
+    align-items: center; justify-content: center; cursor: pointer; border: none;
+  }
+  .status-select {
+    border: 1px solid #E4E1D6; border-radius: 3px; padding: 5px 8px; font-size: 12px;
+    font-family: 'Inter', sans-serif; background: #fff; cursor: pointer;
+  }
+  .settings-form { max-width: 480px; }
+  .save-msg { color: var(--olive); font-size: 13px; margin-top: 10px; display: none; }
+  .role-badge { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; background: #E4E1D6; color: var(--ink); }
+  .role-badge.admin { background: #E0EEF5; color: var(--navy); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="/images/flexibat-logo.png" alt="Flexibat">
+    <h1>Administration</h1>
+  </div>
+  <div class="header-links">
+    <span id="current-user"></span>
+    <a href="/index.html">Voir le site public →</a>
+    <button id="logout-btn">Déconnexion</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="active" data-tab="terrains">Terrains</button>
+  <button data-tab="realisations">Réalisations</button>
+  <button data-tab="users">Utilisateurs</button>
+  <button data-tab="settings">Paramètres</button>
+</div>
+
+<!-- TERRAINS -->
+<div class="panel" id="panel-terrains">
+  <div class="top-actions">
+    <span id="terrains-count"></span>
+    <button class="btn btn-primary" id="add-terrain-btn">+ Ajouter un terrain</button>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Photo</th><th>Titre</th><th>Ville</th><th>Prix</th><th>Statut</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="terrains-table"></tbody>
+  </table>
+</div>
+
+<!-- REALISATIONS -->
+<div class="panel hidden" id="panel-realisations">
+  <div class="top-actions">
+    <span id="realisations-count"></span>
+    <button class="btn btn-primary" id="add-realisation-btn">+ Ajouter une réalisation</button>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Photo</th><th>Titre</th><th>Catégorie</th><th>Lieu</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="realisations-table"></tbody>
+  </table>
+</div>
+
+<!-- USERS -->
+<div class="panel hidden" id="panel-users">
+  <div class="top-actions">
+    <span id="users-count"></span>
+    <button class="btn btn-primary" id="add-user-btn">+ Ajouter un utilisateur</button>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Utilisateur</th><th>Rôle</th><th>Créé le</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="users-table"></tbody>
+  </table>
+</div>
+
+<!-- SETTINGS -->
+<div class="panel hidden" id="panel-settings">
+  <form class="settings-form" id="settings-form">
+    <div class="field">
+      <label>Numéro WhatsApp (format international, sans + ni espace, ex: 2250501475270)</label>
+      <input type="text" id="set-whatsapp" required pattern="[0-9]+">
+    </div>
+    <div class="field">
+      <label>Email de contact</label>
+      <input type="email" id="set-email" required>
+    </div>
+    <div class="field">
+      <label>Téléphone affiché</label>
+      <input type="text" id="set-telephone">
+    </div>
+    <div class="field">
+      <label>Adresse</label>
+      <input type="text" id="set-adresse">
+    </div>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <div class="save-msg" id="settings-saved">✓ Paramètres enregistrés</div>
+  </form>
+</div>
+
+<!-- MODALS -->
+<div id="modal-root"></div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>
