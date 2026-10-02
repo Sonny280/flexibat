@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer');
 const pool = require('./db');
 
 const app = express();
@@ -13,6 +14,46 @@ const UPLOADS_DIR = path.join(__dirname, 'uploads');
 const SESSION_SECRET = process.env.SESSION_SECRET || 'flexibat-session-secret-a-changer';
 
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR);
+
+// ---------- Email (seul canal de réception des messages de contact) ----------
+// Configuré via les variables SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS.
+// Les messages ne sont PAS enregistrés en base — s'ils ne partent pas par
+// email (SMTP mal configuré, panne), ils sont perdus. C'est voulu.
+let mailTransporter = null;
+if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+  mailTransporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: Number(process.env.SMTP_PORT) === 465,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
+} else {
+  console.log('SMTP non configuré — le formulaire de contact ne pourra pas envoyer de messages.');
+}
+
+async function sendContactNotification(msg) {
+  const { rows } = await pool.query('SELECT email FROM settings WHERE id = 1');
+  const destination = rows[0]?.email;
+  if (!destination) throw new Error("Aucune adresse email de destination configurée dans Paramètres.");
+
+  await mailTransporter.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to: destination,
+    replyTo: msg.email,
+    subject: `[Flexibat — site web] Nouveau message : ${msg.objet || 'Sans objet'}`,
+    text: `Nouveau message reçu via le formulaire de contact du site :
+
+Nom : ${msg.nom} ${msg.prenom || ''}
+Email : ${msg.email}
+Téléphone : ${msg.telephone || 'non renseigné'}
+Objet : ${msg.objet || 'non renseigné'}
+
+Message :
+${msg.message}
+
+— Tu peux répondre directement à cet email, la réponse partira vers ${msg.email}.`
+  });
+}
 
 // ---------- Upload photos ----------
 const storage = multer.diskStorage({
@@ -127,6 +168,37 @@ function toRealisationJson(row) {
     description: row.description, photos: row.photos, createdAt: row.created_at
   };
 }
+
+// --- Formulaire de contact (public) ---
+app.post('/api/contact', async (req, res) => {
+  const { nom, prenom, email, telephone, objet, message } = req.body || {};
+
+  if (!nom || !email || !message) {
+    return res.status(400).json({ error: 'Nom, email et message sont obligatoires.' });
+  }
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) {
+    return res.status(400).json({ error: 'Adresse email invalide.' });
+  }
+
+  const cleanMsg = {
+    nom: nom.trim(), prenom: (prenom || '').trim(), email: email.trim(),
+    telephone: (telephone || '').trim(), objet: (objet || '').trim(), message: message.trim()
+  };
+
+  if (!mailTransporter) {
+    console.error('Tentative de contact reçue mais SMTP non configuré :', cleanMsg);
+    return res.status(503).json({ error: "L'envoi d'email n'est pas configuré sur le serveur pour le moment." });
+  }
+
+  try {
+    await sendContactNotification(cleanMsg);
+    res.status(201).json({ ok: true });
+  } catch (err) {
+    console.error('Échec envoi email contact :', err.message);
+    res.status(502).json({ error: "Impossible d'envoyer le message pour le moment, merci de réessayer." });
+  }
+});
 
 // =========================================================
 // API ADMIN (protégée par session)

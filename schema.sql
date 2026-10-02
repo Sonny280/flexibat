@@ -53,3 +53,4 @@ CREATE TABLE IF NOT EXISTS settings (
 INSERT INTO settings (id, whatsapp, email, telephone, adresse)
 VALUES (1, '', '', '', '')
 ON CONFLICT (id) DO NOTHING;
+
