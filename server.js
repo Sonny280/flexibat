@@ -404,3 +404,4 @@ app.listen(PORT, () => {
   console.log(`Flexibat server running on http://localhost:${PORT}`);
   console.log(`Admin: http://localhost:${PORT}/admin`);
 });
+

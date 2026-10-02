@@ -300,8 +300,7 @@
       </div>
       <div class="contact-map">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.4042078384077!2d-4.0993095252432!3d5.355127694623615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1c1936a3dc5d1%3A0xeadfaab27777a63d!2sFLEXIBAT!5e0!3m2!1sfr!2sci!4v1790884000597!5m2!1sfr!2sci" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
-
+          src="https://maps.google.com/maps?q=Yopougon%20Antenne-Ananeraie%2C%20en%20face%20de%20la%20FIDRA%2C%20Abidjan&t=&z=15&ie=UTF8&iwloc=&output=embed"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           aria-label="Localisation de Flexibat à Abidjan">
@@ -311,30 +310,30 @@
         <span class="play-circle" style="background:#25D366; border-color:#25D366;">↗</span> Discuter sur WhatsApp
       </a>
     </div>
-    <form class="contact-form reveal">
+    <form class="contact-form reveal" id="contact-form">
       <div class="form-row">
         <div>
           <label>Nom</label>
-          <input type="text" placeholder="Votre nom">
+          <input type="text" name="nom" placeholder="Votre nom" required>
         </div>
         <div>
           <label>Prénom</label>
-          <input type="text" placeholder="Votre prénom">
+          <input type="text" name="prenom" placeholder="Votre prénom">
         </div>
       </div>
       <div class="form-row">
         <div>
           <label>Email</label>
-          <input type="email" placeholder="vous@exemple.com">
+          <input type="email" name="email" placeholder="vous@exemple.com" required>
         </div>
         <div>
           <label>Téléphone</label>
-          <input type="tel" placeholder="+225 ...">
+          <input type="tel" name="telephone" placeholder="+225 ...">
         </div>
       </div>
       <div class="form-full">
         <label>Objet</label>
-        <select>
+        <select name="objet">
           <option>Devis BTP / VRD</option>
           <option>Dépannage FlexiPlomb</option>
           <option>Autre demande</option>
@@ -342,9 +341,10 @@
       </div>
       <div class="form-full">
         <label>Message</label>
-        <textarea placeholder="Décrivez votre besoin..."></textarea>
+        <textarea name="message" placeholder="Décrivez votre besoin..." required></textarea>
       </div>
-      <a href="#" class="btn-primary" style="display:inline-block;">Envoyer</a>
+      <button type="submit" class="btn-primary" id="contact-submit" style="display:inline-block; border:none; cursor:pointer;">Envoyer</button>
+      <div class="form-feedback" id="contact-feedback" style="margin-top:14px; font-size:14px; display:none;"></div>
     </form>
   </div>
 </section>
@@ -406,7 +406,4 @@
 <script src="animations.js" type="module"></script>
 </body>
 </html>
-
-
-
 
