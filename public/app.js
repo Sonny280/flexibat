@@ -6,6 +6,7 @@
 //   <span data-email-display></span>          -> texte = email
 //   <a data-email-link href="#">...</a>       -> href = mailto:email
 //   <span data-telephone-display></span>      -> texte = téléphone
+//   <a data-telephone-link href="#">...</a>   -> href = tel:telephone (appel direct)
 async function applyFlexibatSettings() {
   try {
     const res = await fetch('/api/settings');
@@ -28,6 +29,9 @@ async function applyFlexibatSettings() {
     });
     document.querySelectorAll('[data-telephone-display]').forEach(el => {
       el.textContent = settings.telephone;
+    });
+    document.querySelectorAll('[data-telephone-link]').forEach(el => {
+      el.href = `tel:${settings.telephone.replace(/\s+/g, '')}`;
     });
     document.querySelectorAll('[data-adresse-display]').forEach(el => {
       el.textContent = settings.adresse;

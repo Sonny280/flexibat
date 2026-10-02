@@ -133,6 +133,7 @@
 
   nav {
     display: flex;
+    align-items: center;
     gap: 22px;
   }
 
@@ -151,14 +152,16 @@
   /* FlexiPlomb est une filiale avec son propre logo : on lui donne un
      onglet visuellement distinct des autres (pastille cyan) dans le menu. */
   nav a.nav-flexiplomb {
-    background: var(--cyan);
+    background: #fff;
     color: var(--navy) !important;
-    padding: 6px 14px;
+    border: 2px solid var(--cyan);
+    padding: 4px 14px;
     border-radius: 14px;
     font-weight: 700;
+    line-height: 1.4;
   }
-  nav a.nav-flexiplomb:hover { background: #fff; color: var(--navy) !important; }
-  nav a.nav-flexiplomb.nav-active { background: var(--navy); color: #fff !important; }
+  nav a.nav-flexiplomb:hover { background: var(--cyan); color: #fff !important; }
+  nav a.nav-flexiplomb.nav-active { background: var(--navy); border-color: var(--navy); color: #fff !important; }
 
   .header-cta {
     background: var(--laterite);
