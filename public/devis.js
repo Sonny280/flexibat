@@ -91,9 +91,8 @@
     ].filter(Boolean).join('\n');
 
     const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-
     form.reset();
     closeModal();
+    window.location.href = url;
   });
 })();
