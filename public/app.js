@@ -12,8 +12,10 @@ async function applyFlexibatSettings() {
     if (!res.ok) return;
     const settings = await res.json();
 
+    const defaultWhatsappMessage = 'Bonjour, je souhaite avoir des informations sur vos services (BTP, VRD, FlexiPlomb, terrains).';
     document.querySelectorAll('[data-whatsapp-link]').forEach(el => {
-      el.href = `https://wa.me/${settings.whatsapp}`;
+      const msg = el.dataset.whatsappMessage || defaultWhatsappMessage;
+      el.href = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(msg)}`;
     });
     document.querySelectorAll('[data-whatsapp-display]').forEach(el => {
       el.textContent = '+' + settings.whatsapp.replace(/(\d{3})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5 $6');
