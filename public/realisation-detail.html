@@ -41,6 +41,7 @@
     <a href="flexiplomb.html">FlexiPlomb</a>
     <a href="realisations.html" class="nav-active">Réalisations</a>
     <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+    <a href="actualites.html">Actualités</a>
     <a href="index.html#contact">Contact</a>
   </nav>
   <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
@@ -90,6 +91,7 @@
         <li><a href="index.html">Accueil</a></li>
         <li><a href="realisations.html">Réalisations</a></li>
         <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+        <li><a href="actualites.html">Actualités</a></li>
         <li><a href="index.html#contact">Nous contacter</a></li>
       </ul>
     </div>
@@ -99,7 +101,7 @@
         <li><span data-telephone-display>+225 07 07 36 65 32</span></li>
         <li><span data-whatsapp-display>+225 05 01 47 52 70</span></li>
         <li><span data-email-display>expert.btp@gmail.com</span></li>
-        <li style="margin-top:14px; color:#8FA3B5; font-size:13px;">Lun – Sam : 7h30 – 18h00</li>
+        <li style="margin-top:14px; color:#8FA3B5; font-size:13px;">Lundi – Vendredi : 8h – 17h30</li>
       </ul>
     </div>
   </div>
@@ -112,7 +114,7 @@
 <script src="app.js" defer></script>
 <script src="animations.js" type="module"></script>
 <script>
-  const CATEGORY_LABELS = { BTP: 'BTP', Terrain: 'Voirie / Terrain viabilisé', FlexiPlomb: 'FlexiPlomb' };
+  const CATEGORY_LABELS = { BTP: 'BTP', VRD: 'VRD', Terrain: 'VRD', FlexiPlomb: 'FlexiPlomb' };
 
   (async function () {
     const id = new URLSearchParams(window.location.search).get('id');
@@ -168,4 +170,3 @@
 </script>
 </body>
 </html>
-

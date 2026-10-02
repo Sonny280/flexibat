@@ -1,6 +1,7 @@
 const modalRoot = document.getElementById('modal-root');
 let terrainsCache = [];
 let realisationsCache = [];
+let actualitesCache = [];
 let usersCache = [];
 let currentUserId = null;
 
@@ -76,6 +77,24 @@ async function loadRealisations() {
       <td>
         <button class="btn btn-secondary btn-small" onclick="openRealisationModal(${r.id})">Modifier</button>
         <button class="btn btn-danger btn-small" onclick="deleteRealisation(${r.id})">Supprimer</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function loadActualites() {
+  const res = await fetch('/api/actualites');
+  actualitesCache = await res.json();
+  document.getElementById('actualites-count').textContent = `${actualitesCache.length} actualité(s)`;
+  document.getElementById('actualites-table').innerHTML = actualitesCache.map(a => `
+    <tr>
+      <td>${a.photos[0] ? `<img src="${a.photos[0]}">` : '—'}</td>
+      <td>${a.titre}</td>
+      <td>${a.categorie}</td>
+      <td>${new Date(a.createdAt).toLocaleDateString('fr-FR')}</td>
+      <td>
+        <button class="btn btn-secondary btn-small" onclick="openActualiteModal(${a.id})">Modifier</button>
+        <button class="btn btn-danger btn-small" onclick="deleteActualite(${a.id})">Supprimer</button>
       </td>
     </tr>
   `).join('');
@@ -258,7 +277,7 @@ function openRealisationModal(id) {
           <div class="field-row">
             <div class="field"><label>Catégorie</label>
               <select name="categorie">
-                ${['BTP', 'Terrain', 'FlexiPlomb'].map(c => `<option ${r && r.categorie === c ? 'selected' : ''}>${c}</option>`).join('')}
+                ${['BTP', 'VRD', 'FlexiPlomb'].map(c => `<option ${r && r.categorie === c ? 'selected' : ''}>${c}</option>`).join('')}
               </select>
             </div>
             <div class="field"><label>Lieu</label><input name="lieu" value="${r ? r.lieu : ''}"></div>
@@ -307,6 +326,64 @@ async function deleteRealisation(id) {
   loadRealisations();
 }
 
+// ---------- Modal Actualité ----------
+function openActualiteModal(id) {
+  const a = id ? actualitesCache.find(x => x.id === id) : null;
+  modalRoot.innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal">
+        <h2>${a ? "Modifier l'actualité" : 'Ajouter une actualité'}</h2>
+        <form id="actualite-form">
+          <div class="field"><label>Titre</label><input name="titre" required value="${a ? a.titre : ''}"></div>
+          <div class="field"><label>Catégorie</label>
+            <select name="categorie">
+              ${['Info', 'Recrutement', 'Stage'].map(c => `<option ${a && a.categorie === c ? 'selected' : ''}>${c}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field"><label>Contenu</label><textarea name="contenu" required>${a ? a.contenu : ''}</textarea></div>
+          <div class="field">
+            <label>Photo (optionnelle)</label>
+            ${a && a.photos.length ? `<div class="existing-photos" id="existing-photos-a">${a.photos.map(p => `
+              <div class="ph"><img src="${p}"><button type="button" class="remove-ph" data-photo="${p}">×</button></div>
+            `).join('')}</div>` : ''}
+            <input type="file" name="photos" accept="image/*">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+
+  let keepPhotos = a ? [...a.photos] : [];
+  modalRoot.querySelectorAll('.remove-ph').forEach(btn => {
+    btn.addEventListener('click', () => {
+      keepPhotos = keepPhotos.filter(p => p !== btn.dataset.photo);
+      btn.closest('.ph').remove();
+    });
+  });
+
+  document.getElementById('actualite-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    if (a) formData.append('keepPhotos', JSON.stringify(keepPhotos));
+    const url = a ? `/api/admin/actualites/${a.id}` : '/api/admin/actualites';
+    const method = a ? 'PUT' : 'POST';
+    const res = await fetch(url, { method, body: formData });
+    if (!res.ok) { alert('Erreur lors de l\'enregistrement'); return; }
+    closeModal();
+    loadActualites();
+  });
+}
+
+async function deleteActualite(id) {
+  if (!confirm('Supprimer cette actualité ?')) return;
+  await fetch(`/api/admin/actualites/${id}`, { method: 'DELETE' });
+  loadActualites();
+}
+
 function closeModal() { modalRoot.innerHTML = ''; }
 
 // ---------- Settings ----------
@@ -333,10 +410,14 @@ document.getElementById('settings-form').addEventListener('submit', async (e) =>
 // ---------- Boutons "ajouter" ----------
 document.getElementById('add-terrain-btn').addEventListener('click', () => openTerrainModal(null));
 document.getElementById('add-realisation-btn').addEventListener('click', () => openRealisationModal(null));
+document.getElementById('add-actualite-btn').addEventListener('click', () => openActualiteModal(null));
 document.getElementById('add-user-btn').addEventListener('click', () => openUserModal(null));
 
 // ---------- Init ----------
 loadTerrains();
 loadRealisations();
+loadActualites();
 loadSettings();
 loadUsers();
+
+

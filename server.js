@@ -153,6 +153,17 @@ app.get('/api/realisations/:id', async (req, res) => {
   res.json(toRealisationJson(rows[0]));
 });
 
+app.get('/api/actualites', async (req, res) => {
+  const { rows } = await pool.query('SELECT * FROM actualites ORDER BY created_at DESC');
+  res.json(rows.map(toActualiteJson));
+});
+
+app.get('/api/actualites/:id', async (req, res) => {
+  const { rows } = await pool.query('SELECT * FROM actualites WHERE id = $1', [req.params.id]);
+  if (!rows[0]) return res.status(404).json({ error: 'Actualité introuvable' });
+  res.json(toActualiteJson(rows[0]));
+});
+
 // Convertit les colonnes snake_case de Postgres vers le format attendu par le frontend
 function toTerrainJson(row) {
   return {
@@ -166,6 +177,12 @@ function toRealisationJson(row) {
   return {
     id: row.id, titre: row.titre, categorie: row.categorie, lieu: row.lieu,
     description: row.description, photos: row.photos, createdAt: row.created_at
+  };
+}
+function toActualiteJson(row) {
+  return {
+    id: row.id, titre: row.titre, categorie: row.categorie,
+    contenu: row.contenu, photos: row.photos, createdAt: row.created_at
   };
 }
 
@@ -326,6 +343,51 @@ app.delete('/api/admin/realisations/:id', async (req, res) => {
   res.status(204).send();
 });
 
+// --- Actualités CRUD ---
+app.post('/api/admin/actualites', upload.array('photos', 5), async (req, res) => {
+  const photos = (req.files || []).map(f => `/uploads/${f.filename}`);
+  const { titre, categorie, contenu } = req.body;
+  const { rows } = await pool.query(
+    `INSERT INTO actualites (titre, categorie, contenu, photos)
+     VALUES ($1,$2,$3,$4) RETURNING *`,
+    [titre || '', categorie || 'Info', contenu || '', JSON.stringify(photos)]
+  );
+  res.status(201).json(toActualiteJson(rows[0]));
+});
+
+app.put('/api/admin/actualites/:id', upload.array('photos', 5), async (req, res) => {
+  const { rows: existingRows } = await pool.query('SELECT * FROM actualites WHERE id = $1', [req.params.id]);
+  const existing = existingRows[0];
+  if (!existing) return res.status(404).json({ error: 'Actualité introuvable' });
+
+  const newPhotos = (req.files || []).map(f => `/uploads/${f.filename}`);
+  let keepPhotos = existing.photos;
+  if (req.body.keepPhotos) {
+    try { keepPhotos = JSON.parse(req.body.keepPhotos); } catch (e) {}
+  }
+  const photos = [...keepPhotos, ...newPhotos];
+
+  const fields = ['titre', 'categorie', 'contenu'];
+  const merged = {};
+  fields.forEach(f => { merged[f] = req.body[f] !== undefined ? req.body[f] : existing[f]; });
+
+  const { rows } = await pool.query(
+    `UPDATE actualites SET titre=$1, categorie=$2, contenu=$3, photos=$4 WHERE id=$5 RETURNING *`,
+    [merged.titre, merged.categorie, merged.contenu, JSON.stringify(photos), req.params.id]
+  );
+  res.json(toActualiteJson(rows[0]));
+});
+
+app.delete('/api/admin/actualites/:id', async (req, res) => {
+  const { rows } = await pool.query('DELETE FROM actualites WHERE id = $1 RETURNING photos', [req.params.id]);
+  if (!rows[0]) return res.status(404).json({ error: 'Actualité introuvable' });
+  (rows[0].photos || []).forEach(p => {
+    const filePath = path.join(__dirname, p);
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+  });
+  res.status(204).send();
+});
+
 // --- Utilisateurs CRUD ---
 app.get('/api/admin/users', async (req, res) => {
   const { rows } = await pool.query('SELECT id, username, role, created_at FROM users ORDER BY id');
@@ -404,4 +466,3 @@ app.listen(PORT, () => {
   console.log(`Flexibat server running on http://localhost:${PORT}`);
   console.log(`Admin: http://localhost:${PORT}/admin`);
 });
-

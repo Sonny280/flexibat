@@ -25,6 +25,7 @@
     <a href="flexiplomb.html">FlexiPlomb</a>
     <a href="realisations.html">Réalisations</a>
     <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+    <a href="actualites.html">Actualités</a>
     <a href="#contact">Contact</a>
   </nav>
   <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
@@ -32,6 +33,11 @@
   </button>
   <a href="#" data-whatsapp-link target="_blank" class="header-cta">Devis sur WhatsApp</a>
 </header>
+
+<div id="actu-banner" style="display:none; background:var(--navy); color:#fff; padding:12px 20px; font-size:14px; display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; text-align:center;">
+  <a id="actu-banner-link" href="actualites.html" style="color:#fff; text-decoration:none; font-weight:600;"></a>
+  <button id="actu-banner-close" aria-label="Fermer" style="background:none; border:1px solid rgba(255,255,255,0.4); color:#fff; width:22px; height:22px; border-radius:50%; cursor:pointer; font-size:13px; line-height:1; flex-shrink:0;">×</button>
+</div>
 
 <section class="hero">
   <svg class="topo-pattern" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +48,7 @@
     <path d="M 500 200 Q 460 230 490 320 Q 500 380 470 460 Q 440 520 450 600" stroke="#02AFF3" stroke-width="1.5" fill="none"/>
   </svg>
   <div class="hero-content">
-    <h1>La confiance et le<br>professionnalisme<br><em>au service du développement</em></h1>
+    <h1>La confiance, le<br>professionnalisme<br><em>au service du développement</em></h1>
     <p>BTP, Aménagement VRD, travaux routiers et dépannage — Flexibat accompagne vos projets à Abidjan et dans plusieurs régions de Côte d'Ivoire.</p>
     <div class="hero-ctas">
       <a href="btp.html" class="btn-primary">Demander un devis BTP / VRD</a>
@@ -168,11 +174,26 @@
   </div>
 </section>
 
+<section class="gallery" style="background:#F2F1EC;">
+  <div class="gallery-inner">
+    <div class="section-intro" style="margin-bottom:40px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;">
+      <div>
+        <h2>Actualités</h2>
+        <p>Dernières informations et offres d'emploi ou de stage.</p>
+      </div>
+      <a href="actualites.html" class="activity-link">Voir toutes les actualités →</a>
+    </div>
+    <div id="home-actus-list" class="reveal-group" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+      <p style="color:#6B6A63;">Chargement...</p>
+    </div>
+  </div>
+</section>
+
 <section class="about">
   <div class="about-inner">
     <div class="section-intro reveal">
       <h2>Qui sommes-nous</h2>
-      <p>Flexibat accompagne les particuliers et les entreprises dans leurs projets de voirie et de construction, avec la confiance et le professionnalisme comme moteurs.</p>
+      <p>Flexibat accompagne les particuliers et les entreprises dans leurs projets de voirie et de construction, avec la confiance, le professionnalisme comme moteurs.</p>
     </div>
     <div class="about-blocks reveal-group">
       <div class="about-block" style="background-image: url('images/chantier-pont.jpg');">
@@ -203,9 +224,9 @@
     </div>
     <div class="director-content reveal">
       <div class="director-tag">DIRECTION</div>
-      <p class="director-intro">Depuis plus de 22 ans, KOUAKOU Alphonse dirige Flexibat avec une exigence constante de rigueur et de proximité avec chaque client — des fondations d'un projet à sa livraison.</p>
+      <p class="director-intro">Fort de 22 ans d'expérience professionnelle, dont plus de 15 ans à la tête de Flexibat, KOUAKOU Alphonse dirige l'entreprise avec une exigence constante de rigueur et de proximité avec chaque client — des fondations d'un projet à sa livraison.</p>
       <div class="director-name">KOUAKOU Alphonse</div>
-      <div class="director-role">Gérant — 22 ans d'expérience</div>
+      <div class="director-role">Gérant — 15+ ans à la tête de Flexibat</div>
     </div>
   </div>
 </section>
@@ -382,6 +403,7 @@
         <li><a href="index.html">Accueil</a></li>
         <li><a href="realisations.html">Réalisations</a></li>
         <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+        <li><a href="actualites.html">Actualités</a></li>
         <li><a href="index.html#contact">Nous contacter</a></li>
       </ul>
     </div>
@@ -391,7 +413,7 @@
         <li><span data-telephone-display>+225 07 07 36 65 32</span></li>
         <li><span data-whatsapp-display>+225 05 01 47 52 70</span></li>
         <li><span data-email-display>expert.btp@gmail.com</span></li>
-        <li style="margin-top:14px; color:#8FA3B5; font-size:13px;">Lun – Sam : 7h30 – 18h00</li>
+        <li style="margin-top:14px; color:#8FA3B5; font-size:13px;">Lundi – Vendredi : 8h – 17h30</li>
       </ul>
     </div>
   </div>

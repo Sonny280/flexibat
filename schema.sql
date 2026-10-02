@@ -41,6 +41,18 @@ CREATE TABLE IF NOT EXISTS realisations (
 CREATE INDEX IF NOT EXISTS idx_realisations_categorie ON realisations(categorie);
 CREATE INDEX IF NOT EXISTS idx_realisations_created_at ON realisations(created_at DESC);
 
+CREATE TABLE IF NOT EXISTS actualites (
+  id SERIAL PRIMARY KEY,
+  titre TEXT NOT NULL,
+  categorie TEXT NOT NULL DEFAULT 'Info',
+  contenu TEXT DEFAULT '',
+  photos JSONB NOT NULL DEFAULT '[]',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_actualites_categorie ON actualites(categorie);
+CREATE INDEX IF NOT EXISTS idx_actualites_created_at ON actualites(created_at DESC);
+
 CREATE TABLE IF NOT EXISTS settings (
   id INTEGER PRIMARY KEY DEFAULT 1,
   whatsapp TEXT NOT NULL DEFAULT '',
@@ -53,4 +65,3 @@ CREATE TABLE IF NOT EXISTS settings (
 INSERT INTO settings (id, whatsapp, email, telephone, adresse)
 VALUES (1, '', '', '', '')
 ON CONFLICT (id) DO NOTHING;
-

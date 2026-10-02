@@ -92,6 +92,7 @@
 <div class="tabs">
   <button class="active" data-tab="terrains">Terrains</button>
   <button data-tab="realisations">Réalisations</button>
+  <button data-tab="actualites">Actualités</button>
   <button data-tab="users">Utilisateurs</button>
   <button data-tab="settings">Paramètres</button>
 </div>
@@ -121,6 +122,20 @@
       <tr><th>Photo</th><th>Titre</th><th>Catégorie</th><th>Lieu</th><th>Actions</th></tr>
     </thead>
     <tbody id="realisations-table"></tbody>
+  </table>
+</div>
+
+<!-- ACTUALITES -->
+<div class="panel hidden" id="panel-actualites">
+  <div class="top-actions">
+    <span id="actualites-count"></span>
+    <button class="btn btn-primary" id="add-actualite-btn">+ Ajouter une actualité</button>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Photo</th><th>Titre</th><th>Catégorie</th><th>Publié le</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="actualites-table"></tbody>
   </table>
 </div>
 
