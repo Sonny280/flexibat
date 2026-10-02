@@ -6,7 +6,7 @@
 //   <span data-email-display></span>          -> texte = email
 //   <a data-email-link href="#">...</a>       -> href = mailto:email
 //   <span data-telephone-display></span>      -> texte = téléphone
-(async function () {
+async function applyFlexibatSettings() {
   try {
     const res = await fetch('/api/settings');
     if (!res.ok) return;
@@ -33,29 +33,17 @@
   } catch (e) {
     console.warn('Impossible de charger les paramètres Flexibat', e);
   }
-})();
+}
 
-// Menu mobile : ouverture/fermeture du panneau de navigation sous 900px.
-(function () {
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('header nav');
-  if (!toggle || !nav) return;
-
-  toggle.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('nav-open');
-    toggle.classList.toggle('is-open', isOpen);
-    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
-
-  // Ferme le menu automatiquement quand on choisit un lien.
-  nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('nav-open');
-      toggle.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-})();
+// Le header/footer communs sont injectés de façon asynchrone par includes.js
+// (voir partials/). On attend qu'ils soient dans la page avant d'y appliquer
+// les coordonnées (WhatsApp, email, téléphone, adresse) ; si la page n'utilise
+// pas includes.js (pas de #site-header), on applique directement.
+if (document.getElementById('site-header') || document.getElementById('site-footer')) {
+  document.addEventListener('partials:loaded', applyFlexibatSettings);
+} else {
+  applyFlexibatSettings();
+}
 
 // Utilitaire pour les pages qui affichent des listes (terrains, réalisations)
 function statutLabel(statut) {
