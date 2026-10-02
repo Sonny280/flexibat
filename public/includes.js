@@ -41,6 +41,15 @@
     }
   }
 
+  // Le modal de demande de devis fait partie du header commun : on charge
+  // son script une seule fois, sur toutes les pages, sans avoir à l'ajouter
+  // manuellement partout.
+  if (headerSlot && !document.querySelector('script[src="devis.js"]')) {
+    const script = document.createElement('script');
+    script.src = 'devis.js';
+    document.body.appendChild(script);
+  }
+
   // Signale aux autres scripts (app.js, animations.js) que le header/footer
   // sont désormais dans le DOM et peuvent être ciblés en toute sécurité.
   document.dispatchEvent(new Event('partials:loaded'));

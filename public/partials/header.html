@@ -19,3 +19,40 @@
   </button>
   <a href="#" data-whatsapp-link target="_blank" class="header-cta">Devis sur WhatsApp</a>
 </header>
+
+<div id="devis-modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(11,42,74,0.55); z-index:200; align-items:center; justify-content:center; padding:20px;">
+  <div style="background:#fff; border-radius:8px; padding:32px; width:100%; max-width:480px; max-height:90vh; overflow-y:auto; position:relative;">
+    <button type="button" id="devis-modal-close" aria-label="Fermer" style="position:absolute; top:14px; right:14px; background:none; border:none; font-size:22px; line-height:1; cursor:pointer; color:#6B6A63;">×</button>
+    <h2 style="font-size:20px; margin-bottom:6px;">Demande de devis</h2>
+    <p style="font-size:14px; color:#6B6A63; margin-bottom:20px;">Remplissez ce formulaire, on vous répond directement sur WhatsApp.</p>
+    <form id="devis-form">
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Nom et prénom</label>
+        <input name="nom" required style="width:100%; border:1px solid #E4E1D6; border-radius:3px; padding:10px 12px; font-family:inherit; font-size:14px;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Téléphone</label>
+        <input name="telephone" type="tel" required style="width:100%; border:1px solid #E4E1D6; border-radius:3px; padding:10px 12px; font-family:inherit; font-size:14px;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Type de projet</label>
+        <select name="type" style="width:100%; border:1px solid #E4E1D6; border-radius:3px; padding:10px 12px; font-family:inherit; font-size:14px; background:#F2F1EC;">
+          <option value="BTP">BTP</option>
+          <option value="VRD">VRD</option>
+          <option value="FlexiPlomb">FlexiPlomb</option>
+        </select>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Lieu du projet</label>
+        <input name="lieu" style="width:100%; border:1px solid #E4E1D6; border-radius:3px; padding:10px 12px; font-family:inherit; font-size:14px;">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Décrivez votre besoin</label>
+        <textarea name="description" required rows="3" style="width:100%; border:1px solid #E4E1D6; border-radius:3px; padding:10px 12px; font-family:inherit; font-size:14px; resize:vertical;"></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%; border:none; cursor:pointer;">Envoyer sur WhatsApp</button>
+      <p id="devis-form-error" style="color:#B8492E; font-size:13px; margin-top:10px; display:none;"></p>
+    </form>
+  </div>
+</div>
+

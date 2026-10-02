@@ -38,6 +38,47 @@
     // Si aucune réalisation en base, on laisse les images placeholder déjà présentes dans le HTML
   } catch (e) { console.warn(e); }
 
+  // Dernières actualités -> aperçu sur l'accueil + bandeau d'annonce
+  try {
+    const res = await fetch('/api/actualites');
+    const actus = await res.json();
+
+    // Bandeau d'annonce (affiche la dernière actualité, fermable, ne revient pas une fois fermé)
+    const banner = document.getElementById('actu-banner');
+    if (banner && actus.length > 0) {
+      const latest = actus[0];
+      const dismissedId = localStorage.getItem('flexibat-actu-banner-dismissed');
+      if (String(latest.id) !== dismissedId) {
+        const prefix = latest.categorie === 'Recrutement' ? 'Recrutement — '
+          : latest.categorie === 'Stage' ? 'Stage — ' : '';
+        document.getElementById('actu-banner-link').textContent = `📢 ${prefix}${latest.titre} — En savoir plus`;
+        banner.style.display = 'flex';
+        document.getElementById('actu-banner-close').addEventListener('click', () => {
+          localStorage.setItem('flexibat-actu-banner-dismissed', String(latest.id));
+          banner.style.display = 'none';
+        });
+      }
+    }
+
+    const list = document.getElementById('home-actus-list');
+    if (list) {
+      if (actus.length === 0) {
+        list.innerHTML = '<p style="color:#6B6A63;">Aucune actualité publiée pour le moment.</p>';
+      } else {
+        list.innerHTML = actus.slice(0, 3).map(a => `
+          <a href="actualites.html" style="display:block; background:#fff; border:1px solid #E4E1D6; border-radius:6px; overflow:hidden; color:inherit; text-decoration:none;">
+            ${a.photos && a.photos[0] ? `<img src="${a.photos[0]}" alt="${a.titre}" style="width:100%; height:160px; object-fit:cover; display:block;">` : ''}
+            <div style="padding:18px 20px;">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--laterite, #B8492E); margin-bottom:8px;">${a.categorie}</div>
+              <h3 style="font-size:16px; margin-bottom:6px;">${a.titre}</h3>
+              <div style="font-size:12px; color:#6B6A63;">${new Date(a.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+            </div>
+          </a>
+        `).join('');
+      }
+    }
+  } catch (e) { console.warn(e); }
+
   // Formulaire de contact
   const form = document.getElementById('contact-form');
   if (form) {
