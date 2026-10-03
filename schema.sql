@@ -34,9 +34,18 @@ CREATE TABLE IF NOT EXISTS realisations (
   categorie TEXT NOT NULL DEFAULT 'BTP',
   lieu TEXT DEFAULT '',
   description TEXT DEFAULT '',
+  client TEXT DEFAULT '',
+  duree TEXT DEFAULT '',
+  superficie TEXT DEFAULT '',
   photos JSONB NOT NULL DEFAULT '[]',
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Si la table existait déjà avant l'ajout de ces 3 colonnes (déploiement
+-- précédent), on les ajoute sans toucher aux données existantes.
+ALTER TABLE realisations ADD COLUMN IF NOT EXISTS client TEXT DEFAULT '';
+ALTER TABLE realisations ADD COLUMN IF NOT EXISTS duree TEXT DEFAULT '';
+ALTER TABLE realisations ADD COLUMN IF NOT EXISTS superficie TEXT DEFAULT '';
 
 CREATE INDEX IF NOT EXISTS idx_realisations_categorie ON realisations(categorie);
 CREATE INDEX IF NOT EXISTS idx_realisations_created_at ON realisations(created_at DESC);
@@ -59,8 +68,15 @@ CREATE TABLE IF NOT EXISTS settings (
   email TEXT NOT NULL DEFAULT '',
   telephone TEXT NOT NULL DEFAULT '',
   adresse TEXT NOT NULL DEFAULT '',
+  stat_annees TEXT NOT NULL DEFAULT '5+',
+  stat_chantiers TEXT NOT NULL DEFAULT '50+',
+  stat_clients TEXT NOT NULL DEFAULT '30+',
   CONSTRAINT single_row CHECK (id = 1)
 );
+
+ALTER TABLE settings ADD COLUMN IF NOT EXISTS stat_annees TEXT NOT NULL DEFAULT '5+';
+ALTER TABLE settings ADD COLUMN IF NOT EXISTS stat_chantiers TEXT NOT NULL DEFAULT '50+';
+ALTER TABLE settings ADD COLUMN IF NOT EXISTS stat_clients TEXT NOT NULL DEFAULT '30+';
 
 INSERT INTO settings (id, whatsapp, email, telephone, adresse)
 VALUES (1, '', '', '', '')

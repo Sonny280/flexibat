@@ -127,8 +127,14 @@ app.use('/admin', requireAdminPage, express.static(path.join(__dirname, 'admin-p
 // =========================================================
 
 app.get('/api/settings', async (req, res) => {
-  const { rows } = await pool.query('SELECT whatsapp, email, telephone, adresse FROM settings WHERE id = 1');
-  res.json(rows[0] || { whatsapp: '', email: '', telephone: '', adresse: '' });
+  const { rows } = await pool.query(
+    'SELECT whatsapp, email, telephone, adresse, stat_annees, stat_chantiers, stat_clients FROM settings WHERE id = 1'
+  );
+  const s = rows[0] || {};
+  res.json({
+    whatsapp: s.whatsapp || '', email: s.email || '', telephone: s.telephone || '', adresse: s.adresse || '',
+    statAnnees: s.stat_annees || '', statChantiers: s.stat_chantiers || '', statClients: s.stat_clients || ''
+  });
 });
 
 app.get('/api/terrains', async (req, res) => {
@@ -176,7 +182,8 @@ function toTerrainJson(row) {
 function toRealisationJson(row) {
   return {
     id: row.id, titre: row.titre, categorie: row.categorie, lieu: row.lieu,
-    description: row.description, photos: row.photos, createdAt: row.created_at
+    description: row.description, client: row.client, duree: row.duree, superficie: row.superficie,
+    photos: row.photos, createdAt: row.created_at
   };
 }
 function toActualiteJson(row) {
@@ -225,15 +232,18 @@ app.use('/api/admin', requireAdmin);
 
 // --- Paramètres ---
 app.put('/api/admin/settings', async (req, res) => {
-  const { whatsapp, email, telephone, adresse } = req.body;
+  const { whatsapp, email, telephone, adresse, statAnnees, statChantiers, statClients } = req.body;
   const { rows } = await pool.query(
     `UPDATE settings SET
        whatsapp = COALESCE($1, whatsapp),
        email = COALESCE($2, email),
        telephone = COALESCE($3, telephone),
-       adresse = COALESCE($4, adresse)
+       adresse = COALESCE($4, adresse),
+       stat_annees = COALESCE($5, stat_annees),
+       stat_chantiers = COALESCE($6, stat_chantiers),
+       stat_clients = COALESCE($7, stat_clients)
      WHERE id = 1 RETURNING *`,
-    [whatsapp, email, telephone, adresse]
+    [whatsapp, email, telephone, adresse, statAnnees, statChantiers, statClients]
   );
   res.json(rows[0]);
 });
@@ -301,11 +311,11 @@ app.delete('/api/admin/terrains/:id', async (req, res) => {
 // --- Réalisations CRUD ---
 app.post('/api/admin/realisations', upload.array('photos', 10), async (req, res) => {
   const photos = (req.files || []).map(f => `/uploads/${f.filename}`);
-  const { titre, categorie, lieu, description } = req.body;
+  const { titre, categorie, lieu, description, client, duree, superficie } = req.body;
   const { rows } = await pool.query(
-    `INSERT INTO realisations (titre, categorie, lieu, description, photos)
-     VALUES ($1,$2,$3,$4,$5) RETURNING *`,
-    [titre || '', categorie || 'BTP', lieu || '', description || '', JSON.stringify(photos)]
+    `INSERT INTO realisations (titre, categorie, lieu, description, client, duree, superficie, photos)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
+    [titre || '', categorie || 'BTP', lieu || '', description || '', client || '', duree || '', superficie || '', JSON.stringify(photos)]
   );
   res.status(201).json(toRealisationJson(rows[0]));
 });
@@ -322,13 +332,13 @@ app.put('/api/admin/realisations/:id', upload.array('photos', 10), async (req, r
   }
   const photos = [...keepPhotos, ...newPhotos];
 
-  const fields = ['titre', 'categorie', 'lieu', 'description'];
+  const fields = ['titre', 'categorie', 'lieu', 'description', 'client', 'duree', 'superficie'];
   const merged = {};
   fields.forEach(f => { merged[f] = req.body[f] !== undefined ? req.body[f] : existing[f]; });
 
   const { rows } = await pool.query(
-    `UPDATE realisations SET titre=$1, categorie=$2, lieu=$3, description=$4, photos=$5 WHERE id=$6 RETURNING *`,
-    [merged.titre, merged.categorie, merged.lieu, merged.description, JSON.stringify(photos), req.params.id]
+    `UPDATE realisations SET titre=$1, categorie=$2, lieu=$3, description=$4, client=$5, duree=$6, superficie=$7, photos=$8 WHERE id=$9 RETURNING *`,
+    [merged.titre, merged.categorie, merged.lieu, merged.description, merged.client, merged.duree, merged.superficie, JSON.stringify(photos), req.params.id]
   );
   res.json(toRealisationJson(rows[0]));
 });

@@ -36,6 +36,15 @@ async function applyFlexibatSettings() {
     document.querySelectorAll('[data-adresse-display]').forEach(el => {
       el.textContent = settings.adresse;
     });
+    document.querySelectorAll('[data-stat-annees-display]').forEach(el => {
+      if (settings.statAnnees) el.textContent = settings.statAnnees;
+    });
+    document.querySelectorAll('[data-stat-chantiers-display]').forEach(el => {
+      if (settings.statChantiers) el.textContent = settings.statChantiers;
+    });
+    document.querySelectorAll('[data-stat-clients-display]').forEach(el => {
+      if (settings.statClients) el.textContent = settings.statClients;
+    });
   } catch (e) {
     console.warn('Impossible de charger les paramètres Flexibat', e);
   }

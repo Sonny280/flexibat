@@ -107,6 +107,9 @@ async function loadSettings() {
   document.getElementById('set-email').value = s.email || '';
   document.getElementById('set-telephone').value = s.telephone || '';
   document.getElementById('set-adresse').value = s.adresse || '';
+  document.getElementById('set-stat-annees').value = s.statAnnees || '';
+  document.getElementById('set-stat-chantiers').value = s.statChantiers || '';
+  document.getElementById('set-stat-clients').value = s.statClients || '';
 }
 
 // ---------- Utilisateurs ----------
@@ -282,6 +285,11 @@ function openRealisationModal(id) {
             </div>
             <div class="field"><label>Lieu</label><input name="lieu" value="${r ? r.lieu : ''}"></div>
           </div>
+          <div class="field-row">
+            <div class="field"><label>Client (optionnel)</label><input name="client" value="${r && r.client ? r.client : ''}"></div>
+            <div class="field"><label>Durée (optionnel)</label><input name="duree" placeholder="ex: 3 mois" value="${r && r.duree ? r.duree : ''}"></div>
+            <div class="field"><label>Superficie (optionnel)</label><input name="superficie" placeholder="ex: 1200 m²" value="${r && r.superficie ? r.superficie : ''}"></div>
+          </div>
           <div class="field"><label>Description</label><textarea name="description">${r ? r.description : ''}</textarea></div>
           <div class="field">
             <label>Photos</label>
@@ -393,7 +401,10 @@ document.getElementById('settings-form').addEventListener('submit', async (e) =>
     whatsapp: document.getElementById('set-whatsapp').value.trim(),
     email: document.getElementById('set-email').value.trim(),
     telephone: document.getElementById('set-telephone').value.trim(),
-    adresse: document.getElementById('set-adresse').value.trim()
+    adresse: document.getElementById('set-adresse').value.trim(),
+    statAnnees: document.getElementById('set-stat-annees').value.trim(),
+    statChantiers: document.getElementById('set-stat-chantiers').value.trim(),
+    statClients: document.getElementById('set-stat-clients').value.trim()
   };
   const res = await fetch('/api/admin/settings', {
     method: 'PUT',
@@ -419,5 +430,3 @@ loadRealisations();
 loadActualites();
 loadSettings();
 loadUsers();
-
-
